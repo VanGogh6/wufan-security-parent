@@ -1,0 +1,64 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wufan.web.mapper.SysUserMapper">
+
+    <select id="selectPage" resultType="SysUser">
+        SELECT
+            `id`,
+            `username`,
+            `password`,
+            `is_account_non_expired`,
+            `is_account_non_locked`,
+            `is_credentials_non_expired`,
+            `is_enabled`,
+            `nick_name`,
+            `mobile`,
+            `email`,
+            `create_date`,
+            `update_date`
+        FROM
+            sys_user
+        WHERE `is_enabled` = 1
+        <if test="u.username != null and u.username !=''">
+            AND username LIKE CONCAT('%', #{u.username}, '%')
+        </if>
+
+        <if test="u.mobile != null and u.mobile !=''">
+            AND mobile = ${u.mobile}
+        </if>
+    </select>
+
+
+    <!--通过用户id删除用户角色关系表数据-->
+    <delete id="deleteUserRoleByUserId">
+      DELETE FROM sys_user_role where user_id = #{userId}
+    </delete>
+
+    <insert id="saveUserRole">
+        INSERT INTO sys_user_role(user_id, role_id) VALUES
+        <foreach collection="roleIds" item="item" index="index" separator=",">
+            (#{userId}, #{item})
+        </foreach>
+    </insert>
+
+    <select id="getStudentList" resultType="com.wufan.web.entities.SysUser">
+<!--        从三个表查询 1.用户表 2.student-design表 3.design表-->
+        select s.id,s.username
+        from sys_user as s,design_student as ds,design as d
+        where s.id=ds.student_id and ds.design_id=d.id and d.id=#{designId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getTeacherByDesignId" resultType="com.wufan.web.entities.SysUser">
+        select s.id,s.username
+        from sys_user as s,design_teacher as dt,design as d
+        where s.id=dt.teacher_id and dt.design_id=d.id and d.id=#{designId,jdbcType=VARCHAR}
+    </select>
+    <select id="getStudentsByClazzId" resultType="com.wufan.web.entities.SysUser">
+        select u.id,u.username,u.nick_name
+        from sys_user as u,clazz_student as cs ,clazz as c
+        where u.id=cs.student_id and cs.clazz_id=c.id and cs.clazz_id=#{clazzId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

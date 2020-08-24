@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: public-css"/>
+    <th:block th:replace="fragments/head :: bootstrap-table-css"/>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <!-- 头部区域 Navbar -->
+    <th:block th:replace="fragments/main-header"/>
+    <!-- /.navbar -->
+
+    <!-- 左侧区域 Main Sidebar Container -->
+    <th:block th:replace="fragments/main-sidebar(activeUrl='/student/design/person')"/>
+
+    <!-- 右侧主区域 Content Wrapper. Contains page content -->
+    <div class="content-wrapper  text-sm">
+        <!-- 右侧导航区域 Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>个人信息</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">课程设计</a></li>
+                            <li class="breadcrumb-item active">个人信息</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- 右侧内容区域 -->
+        <section class="content">
+             <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                我的班级
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body" th:text="${clazz.getName()}">
+                            我的班级
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                我的信息
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col" colspan="4">基础信息</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td class="text-danger">学号</td>
+                                        <td th:text="${teacher.getUsername()}"> colspan="2"Otto</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td class="text-danger">姓名</td>
+                                        <td th:text="${teacher.getNickName()}">Thornton</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td class="text-danger">邮箱</td>
+                                        <td th:text="${teacher.getEmail()}">邮箱</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td class="text-danger">手机号</td>
+                                        <td th:text="${teacher.getMobile()}">手机号</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="3"><a class="btn btn-primary" th:href="@{/student/design/person/edit}">修改个人信息</a></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- / 右侧内容区域 -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!--右底部区域-->
+    <th:block th:replace="fragments/main-footer"/>
+
+    <!-- 右上角工具栏 Control Sidebar -->
+    <th:block th:replace="fragments/control-sidebar"/>
+
+</div>
+<!-- ./wrapper -->
+
+<th:block th:replace="fragments/script :: public-js"/>
+<th:block th:replace="fragments/script :: bootstrap-table-js"/>
+<th:block th:replace="fragments/script :: layer-js"/>
+<!--公共的js-->
+<script th:src="@{/modules/js/common.js}"></script>
+
+<script th:inline="javascript">
+
+</script>
+</body>
+</html>

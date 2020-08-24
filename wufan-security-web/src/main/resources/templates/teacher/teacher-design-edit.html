@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: public-css"/>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <!-- 头部区域 Navbar -->
+    <th:block th:replace="fragments/main-header"/>
+    <!-- /.navbar -->
+
+    <!-- 左侧区域 Main Sidebar Container -->
+    <th:block th:replace="fragments/main-sidebar(activeUrl='/teacher/design')"/>
+
+    <!-- 右侧主区域 Content Wrapper. Contains page content -->
+    <div class="content-wrapper  text-sm">
+        <!-- 右侧导航区域 Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>编辑课程设计</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">课程设计列表</a></li>
+                            <li class="breadcrumb-item active">编辑课程设计</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- form start -->
+                        <form th:action="@{/teacher/design/edit}" th:method="post">
+                            <input th:value="${design.id}" name="id" type="hidden" id="id" >
+                            <input th:value="${subjectDesignId}" name="subjectDesignId" type="hidden" id="subjectDesignId" >
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">基本信息
+                                    </h3>
+                                </div>
+                                <!-- /.card-header subjectDesignId -->
+                                <div class="card-body ml-4">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group ">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>请选择学科</label>&nbsp;&nbsp;
+                                                <select  class="form-control col-15" name="subjectId" id="subjectId">
+                                                    <div th:each="subject:${list}">
+                                                        <option th:text="${subject.name}" th:value="${subject.getId()}"></option>
+                                                    </div>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group ">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>课程设计编号：</label>
+                                                <div class="col-sm-9">
+                                                    <input th:value="${design.no}" type="text" name="no" class="form-control col-15" placeholder="请输课程设计编号" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>课程设计名称：</label>
+                                                <div class="col-sm-9">
+                                                    <input th:value="${design.name}" type="text" name="name" class="form-control" placeholder="课程设计名称" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>课程设计描述：</label>
+                                                <div class="col-sm-9">
+                                                    <input th:value="${design.describe}"   type="text" name="describe" class="form-control" placeholder="课程设计描述" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="ml-5">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-check"></i>&nbsp;提交
+                                        </button>
+                                        <button type="button" th:onclick="location.href=[[@{/teacher/design}]]" class="btn btn-default">
+                                            <i class="fa fa-reply-all"></i>&nbsp;返回
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- /.form -->
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <!--右底部区域-->
+    <th:block th:replace="fragments/main-footer"/>
+
+    <!-- 右上角工具栏 Control Sidebar -->
+    <th:block th:replace="fragments/control-sidebar"/>
+</div>
+<!-- ./wrapper -->
+
+<th:block th:replace="fragments/script :: public-js"/>
+<th:block th:replace="fragments/script :: inputmask-js"/>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: public-css"/>
+    <th:block th:replace="fragments/head :: bootstrap-table-css"/>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <!-- 头部区域 Navbar -->
+    <th:block th:replace="fragments/main-header"/>
+    <!-- /.navbar -->
+
+    <!-- 左侧区域 Main Sidebar Container -->
+    <th:block th:replace="fragments/main-sidebar(activeUrl='/teacher/design/person')"/>
+
+    <!-- 右侧主区域 Content Wrapper. Contains page content -->
+    <div class="content-wrapper  text-sm">
+        <!-- 右侧导航区域 Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>修改个人信息</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">课程设计</a></li>
+                            <li class="breadcrumb-item active">修改个人信息</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- 右侧内容区域 -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- form start -->
+                        <form th:action="@{/teacher/design/person/edit}" th:method="post">
+                            <input th:value="*{teacher.getId()}" name="id" type="hidden" id="id" >
+                            <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">基本信息
+                                    </h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body ml-4">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group ">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>教师工号：</label>
+                                                <div class="col-sm-9">
+                                                    <input readonly th:value="*{teacher.getUsername()}" type="text" name="username" class="form-control col-15" placeholder="" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>教师姓名：</label>
+                                                <div class="col-sm-9">
+                                                    <input th:value="*{teacher.getNickName()}" type="text" name="nickName" class="form-control" placeholder="" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>教师电话：</label>
+                                                <div class="col-sm-9">
+                                                    <input th:value="*{teacher.getMobile()}" type="text" name="mobile" class="form-control" placeholder="" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-inline form-group">
+                                                <label class="col-sm-3" ><span style="color: red; ">*</span>邮箱：</label>
+                                                <div class="col-sm-9">
+                                                    <input th:value="*{teacher.getEmail()}" type="text" name="email" class="form-control" placeholder="" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="ml-5">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-check"></i>&nbsp;提交
+                                        </button>
+                                        <button type="button" th:onclick="location.href=[[@{/teacher/design/person}]]" class="btn btn-default">
+                                            <i class="fa fa-reply-all"></i>&nbsp;返回
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- /.form -->
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- / 右侧内容区域 -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!--右底部区域-->
+    <th:block th:replace="fragments/main-footer"/>
+
+    <!-- 右上角工具栏 Control Sidebar -->
+    <th:block th:replace="fragments/control-sidebar"/>
+
+</div>
+<!-- ./wrapper -->
+
+<th:block th:replace="fragments/script :: public-js"/>
+<th:block th:replace="fragments/script :: bootstrap-table-js"/>
+<th:block th:replace="fragments/script :: layer-js"/>
+<!--公共的js-->
+<script th:src="@{/modules/js/common.js}"></script>
+
+<script th:inline="javascript">
+
+</script>
+</body>
+</html>

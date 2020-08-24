@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <th:block th:replace="fragments/head :: public-css"/>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed ">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+  <!-- 头部区域 Navbar -->
+  <th:block th:replace="fragments/main-header"/>
+  <!-- /.navbar -->
+
+  <!-- 左侧区域 Main Sidebar Container -->
+  <th:block th:replace="fragments/main-sidebar(activeUrl = '/')"/>
+
+  <!-- 右侧主区域 Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+<!--      <img th:src="@{/modules/img/index.jpg}" src="../modules/img/index.jpg" width="100%" height="100%">-->
+    <p class="mt-5">&nbsp;</p>
+    <h2 class="text-center text-blue">欢迎使用课程设计管理系统</h2>
+    <div class="ml-5 mt-5">
+      <p class="text-red">系统总的角色分为系统管理员角色、专业学科教师管理员角色、教师角色、学生角色。</p>
+    </div>
+    <div class="ml-5 mt-2">
+      <p class="text-red">系统管理员角色：系统管理员用户登陆系统之后，可以管理系统的所有用户，可以锁定用户使用户不能登陆，可以给用户分配为角色，可以给角色分配权限，之后不同的用户就会有不同的权限。</p>
+    </div>
+    <div class="ml-5 mt-2">
+      <p class="text-red">专业学科教师管理员角色：专业的增删改查，按专业类型添加学科，给不同学科分配上课老师，管理每个专业下的班级以及班级里的学生等。</p>
+    </div>
+    <div class="ml-5 mt-2">
+      <p class="text-red">教师角色：按学科对学科的课程设计进行增删改查，统计每个课程设计的具体情况，下载学生提交的课程设计等。</p>
+    </div>
+    <div class="ml-5 mt-2">
+      <p class="text-red">学生角色：按自己学科选择课程设计，上传课程设计作品等。</p>
+    </div>
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!--右底部区域-->
+  <th:block th:replace="fragments/main-footer"/>
+
+  <!-- 右上角工具栏 Control Sidebar -->
+  <th:block th:replace="fragments/control-sidebar"/>
+
+</div>
+<!-- ./wrapper -->
+<th:block th:replace="fragments/script :: public-js"/>
+</body>
+</html>

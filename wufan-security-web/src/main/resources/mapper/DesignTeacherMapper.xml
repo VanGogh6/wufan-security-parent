@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wufan.web.mapper.DesignTeacherMapper">
+  <resultMap id="BaseResultMap" type="com.wufan.web.entities.DesignTeacher">
+    <!--@mbg.generated-->
+    <!--@Table design_teacher-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+    <result column="design_id" jdbcType="VARCHAR" property="designId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, teacher_id, design_id
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update design_teacher
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="teacher_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.teacherId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="design_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.designId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update design_teacher
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="teacher_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.teacherId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.teacherId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="design_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.designId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.designId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into design_teacher
+    (id, teacher_id, design_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.teacherId,jdbcType=VARCHAR}, #{item.designId,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+</mapper>

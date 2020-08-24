@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wufan.web.mapper.DesignMapper">
+  <resultMap id="BaseResultMap" type="com.wufan.web.entities.Design">
+    <!--@mbg.generated-->
+    <!--@Table design-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="no" jdbcType="VARCHAR" property="no" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `no`, `name`, `describe`, deleted, create_time, update_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update design
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="`no` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.no,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`name` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.name,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`describe` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.describe,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="deleted = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deleted,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update design
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="`no` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.no != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.no,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`name` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.name != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.name,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`describe` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.describe != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.describe,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="deleted = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deleted != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.deleted,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createTime != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateTime != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into design
+    (id, `no`, `name`, `describe`, deleted, create_time, update_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.no,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.describe,jdbcType=VARCHAR}, #{item.deleted,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+    <select id="selectPage" resultMap="BaseResultMap">
+      SELECT <include refid="Base_Column_List"></include>
+      FROM
+      design
+      WHERE 1 = 1
+      <if test="d.no != null and d.no !=''">
+        AND `no` LIKE CONCAT('%', #{d.no}, '%')
+      </if>
+
+      <if test="d.name != null and d.name !=''">
+        AND `name` LIKE CONCAT('%', #{d.name}, '%')
+      </if>
+    </select>
+
+  <select id="getDesignList" resultMap="BaseResultMap">
+    select d.id,d.no,d.name
+    from design as d ,subject_design as sd ,subject as s
+    where
+    d.id=sd.design_id and sd.subject_id=s.id and sd.subject_id=#{subjectId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getPage" resultMap="BaseResultMap">
+    select d.id,d.no,d.name,d.describe
+    from design as d ,design_teacher as dt ,sys_user as t
+    where d.id=dt.design_id and dt.teacher_id=t.id and dt.teacher_id=#{teacher.id}
+    and 1 = 1
+    <if test="de.no != null and de.no !=''">
+      AND `no` LIKE CONCAT('%', #{de.no}, '%')
+    </if>
+
+    <if test="de.name != null and de.name !=''">
+      AND `name` LIKE CONCAT('%', #{de.name}, '%')
+    </if>
+  </select>
+<!-- 获取学生未选择过的课程设计返回给学生-->
+<!-- 在design_student中不存在，在design_teacher中存在-->
+
+  <select id="getDesignListByStudentId" resultMap="BaseResultMap">
+    select distinct d.id,d.name,d.describe
+    from clazz_student as cs ,
+    major_clazz as mc,
+    major_subject as ms,
+    subject_design as sd,
+    design as d
+    where cs.clazz_id=mc.clazz_id
+    and mc.major_id=ms.major_id
+    and ms.subject_id=sd.subject_id
+    and cs.student_id=#{studentId,jdbcType=VARCHAR}
+    and sd.design_id=d.id
+    and sd.design_id not in (
+    select design_id
+    from design_student
+    where student_id=#{studentId,jdbcType=VARCHAR}
+    )
+  </select>
+
+</mapper>

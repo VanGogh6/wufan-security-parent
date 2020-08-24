@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wufan.web.mapper.DesignStudentMapper">
+  <resultMap id="BaseResultMap" type="com.wufan.web.entities.DesignStudent">
+    <!--@mbg.generated-->
+    <!--@Table design_student-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="design_id" jdbcType="VARCHAR" property="designId" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="upload" jdbcType="INTEGER" property="upload" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="upload_Time" jdbcType="TIMESTAMP" property="uploadTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, design_id, student_id, upload, upload_Time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update design_student
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="design_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.designId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="student_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.studentId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="upload = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.upload,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="upload_Time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.uploadTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update design_student
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="design_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.designId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.designId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="student_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.studentId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.studentId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="upload = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.upload != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.upload,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="upload_Time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.uploadTime != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.uploadTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into design_student
+    (id, design_id, student_id, upload, upload_Time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.designId,jdbcType=VARCHAR}, #{item.studentId,jdbcType=VARCHAR}, 
+        #{item.upload,jdbcType=INTEGER}, #{item.uploadTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+    <select id="getByDesignId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"></include>
+      from design_student
+      where 1=1
+      <if test="designId != null and designId != ''">
+        and design_id=#{designId,jdbcType=VARCHAR}
+      </if>
+      <if test="studentId != null and studentId != ''">
+        and student_id=#{studentId,jdbcType=VARCHAR}
+      </if>
+    </select>
+  <select id="getDesignStudentsByDesignId" resultMap="BaseResultMap">
+    select  ds.id,
+    ds.design_id,
+    ds.student_id,
+    ds.upload,
+    ds.upload_Time
+    from design_student as ds ,design as d
+    where d.id=ds.design_id
+    <if test="designId != null and designId != ''">
+      and design_id=#{designId,jdbcType=VARCHAR}
+    </if>
+    <if test="designNo != null and designNo != ''">
+      and d.no=#{designNo,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="getRecords" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from design_student
+    where upload=0
+    <if test="designId != null and designId != ''">
+      and design_id=#{designId,jdbcType=VARCHAR}
+    </if>
+  </select>
+    <select id="getByStudentId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"></include>
+      from design_student
+      where 1=1
+      <if test="studentId != null and studentId != ''">
+        and student_id=#{studentId,jdbcType=VARCHAR}
+      </if>
+    </select>
+
+</mapper>

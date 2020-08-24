@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wufan.web.mapper.MajorSubjectMapper">
+  <resultMap id="BaseResultMap" type="com.wufan.web.entities.MajorSubject">
+    <!--@mbg.generated-->
+    <!--@Table major_subject-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="major_id" jdbcType="VARCHAR" property="majorId" />
+    <result column="subject_id" jdbcType="VARCHAR" property="subjectId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, major_id, subject_id
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update major_subject
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="major_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.majorId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="subject_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.subjectId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update major_subject
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="major_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.majorId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.majorId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="subject_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.subjectId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.subjectId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into major_subject
+    (id, major_id, subject_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.majorId,jdbcType=VARCHAR}, #{item.subjectId,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+    <select id="getByMajorId" resultType="com.wufan.web.entities.Subject">
+      select s.id,s.no,s.name,s.deleted
+      from major_subject as ms ,subject as s
+      where ms.subject_id=s.id and ms.major_id=#{majorId,jdbcType=VARCHAR}
+    </select>
+  <select id="getByStudentId" resultType="com.wufan.web.entities.Subject">
+    select s.id,s.no,s.name,s.deleted
+    from clazz_student as cs ,major_clazz as mc , major_subject as ms,subject as s
+    where cs.student_id=#{studentId,jdbcType=VARCHAR} and cs.clazz_id=mc.clazz_id
+    and mc.major_id=ms.major_id and ms.subject_id=s.id
+  </select>
+</mapper>

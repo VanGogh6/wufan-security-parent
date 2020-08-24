@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: public-css"/>
+    <th:block th:replace="fragments/head :: bootstrap-table-css"/>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <!-- 头部区域 Navbar -->
+    <th:block th:replace="fragments/main-header"/>
+    <!-- /.navbar -->
+
+    <!-- 左侧区域 Main Sidebar Container -->
+    <th:block th:replace="fragments/main-sidebar(activeUrl='/student/design')"/>
+
+    <!-- 右侧主区域 Content Wrapper. Contains page content -->
+    <div class="content-wrapper  text-sm">
+        <!-- 右侧导航区域 Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>上传课程设计</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">学生管理课程设计</a></li>
+                            <li class="breadcrumb-item active">上传课程设计</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- 右侧内容区域 -->
+        <section class="content">
+            <!-- card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">课程设计上传</h3>
+                </div>
+
+                <div class="card-body">
+                    <form id="form"  action="/student/design/upload" method="post" enctype="multipart/form-data" >
+                        <input type="hidden" name="id" th:value="${id}"/>
+                        <p>每位同学的项目启动路径及其项目名称均为学号，数据库名称为学号，数据库账户统一为admin，密码统一为123456</p>
+                        <div class="form-group">
+                            <label for="file1">1.上传课设文档</label>
+                            <input type="file" class="form-control-file" id="file1" name="files">
+                        </div>
+                        <p>比如上传的课设文档(.pdf，.docx，.doc，.txt，.md，.xlsx，.xls)可以是：论文，课设设计文档，数据库设计文档，关于课程设计的所有文档都从这儿上传</p>
+                        <hr/>
+                        <div class="form-group">
+                            <label for="file2">2.上传课设脚本</label>
+                            <input type="file" class="form-control-file" id="file2" name="files">
+                        </div>
+                        <p>比如sql脚本，项目依赖脚本(.sql,.js,.css)等</p>
+                        <hr/>
+                        <div class="form-group">
+                            <label for="file3">3.上传课设jar包或war包</label>
+                            <input type="file" class="form-control-file" id="file3" name="files">
+                        </div>
+                        <p>每位同学的项目启动路径及其项目名称均为学号</p>
+                        <hr/>
+                        <div class="form-group">
+                            <label for="file4">4.上传课设全部压缩包</label>
+                            <input type="file" class="form-control-file " id="file4" name="files">
+                        </div>
+                        <p>把这一次的课程设计所有资料存放在一个压缩包里，压缩包名称为学号+姓名(20164081111吴帆)，压缩包包含了你的科学设计项目原件，以及科学设计打包后的jar包或者war包，数据库脚本</p>
+                        <hr/>
+                        <input type="button" class="btn btn-primary" onclick="checkCon()" value="上传"/>
+                        <a class="btn btn-primary" href="/student/design/">返回</a>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </section>
+        <!-- / 右侧内容区域 -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!--右底部区域-->
+    <th:block th:replace="fragments/main-footer"/>
+
+    <!-- 右上角工具栏 Control Sidebar -->
+    <th:block th:replace="fragments/control-sidebar"/>
+
+</div>
+<!-- ./wrapper -->
+
+<th:block th:replace="fragments/script :: public-js"/>
+<th:block th:replace="fragments/script :: bootstrap-table-js"/>
+<th:block th:replace="fragments/script :: layer-js"/>
+<!--公共的js-->
+<script th:src="@{/modules/js/common.js}"></script>
+
+<!--权限资源列表js-->
+<!--<script th:src="@{/modules/js/design/design-list.js}"></script>-->
+
+<script th:inline="javascript">
+
+    function checkCon(){
+        let arr1=["pdf","docx","doc","txt","md","xlsx","xls"];
+        let arr2=["sql","js","css"];
+        let arr3=["jar","war","psd","mp3","mp4"];
+        let arr4=["zip","rar","7z","cab","md","iso"];
+        let file1=$("#file1").val();
+        let file2=$("#file2").val();
+        let file3=$("#file3").val();
+        let file4=$("#file4").val();
+        if (file1!="" && !forE(file1,arr1)){//不是合格文件
+            alert("《"+file1+"》 不是合格文件!  请查看后缀名");
+            return;
+        }else if(file2!="" && !forE(file2,arr2)){//不是合格文件.sql,.js,.css
+            alert("《"+file2+"》 不是合格文件!  请查看后缀名");
+            return;
+        }else if(file3!="" && !forE(file3,arr3)){//不是合格文件.sql,.js,.css
+            alert("《"+file3+"》 不是合格文件!  请查看后缀名");
+            return;
+        }else if(file4!="" && !forE(file4,arr4)){//不是合格文件.sql,.js,.css
+            alert("《"+file4+"》 不是合格文件!  请查看后缀名");
+            return;
+        }else if(file1=="" && file2==""&& file3==""&& file4=="") {
+            alert("至少上传一个文件!");
+            return;
+        }else {
+            $("#form").submit();
+        }
+    }
+
+    //判断文件名是否合法
+    function forE(filename,arr) {
+        let sp = filename.split('.');
+        let str=sp[1];
+        return arr.indexOf(str.toLowerCase())===-1?false:true;
+    }
+
+</script>
+</body>
+</html>

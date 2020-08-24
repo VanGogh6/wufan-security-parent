@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wufan.web.mapper.ClazzStudentMapper">
+  <resultMap id="BaseResultMap" type="com.wufan.web.entities.ClazzStudent">
+    <!--@mbg.generated-->
+    <!--@Table clazz_student-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="clazz_id" jdbcType="VARCHAR" property="clazzId" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, clazz_id, student_id
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update clazz_student
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="clazz_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.clazzId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="student_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.studentId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update clazz_student
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="clazz_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.clazzId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.clazzId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="student_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.studentId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.studentId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into clazz_student
+    (id, clazz_id, student_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.clazzId,jdbcType=VARCHAR}, #{item.studentId,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+    <select id="getByStudentId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" />
+      from clazz_student
+      where student_id=#{studentId,jdbcType=VARCHAR}
+    </select>
+</mapper>
